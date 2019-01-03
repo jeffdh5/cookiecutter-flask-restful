@@ -15,5 +15,6 @@ rq
 newrelic
 requests
 flask_cors
+APScheduler
 tox{% if cookiecutter.use_celery == "yes" %}
 celery{% endif %}
