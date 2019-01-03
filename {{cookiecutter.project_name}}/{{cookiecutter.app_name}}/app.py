@@ -1,7 +1,7 @@
 from flask import Flask
-
+from flask_cors import CORS
 from {{cookiecutter.app_name}} import auth, api
-from {{cookiecutter.app_name}}.extensions import db, jwt, migrate{% if cookiecutter.use_celery == "yes"%}, celery{% endif%}
+from {{cookiecutter.app_name}}.extensions import db, jwt, sentry, migrate{% if cookiecutter.use_celery == "yes"%}, celery{% endif%}
 
 
 def create_app(config=None, testing=False, cli=False):
@@ -36,9 +36,12 @@ def configure_extensions(app, cli):
     """
     db.init_app(app)
     jwt.init_app(app)
+    CORS(app)
 
     if cli is True:
         migrate.init_app(app, db)
+
+    sentry.init_app(app, dsn=app.config.get('SENTRY_DSN'))
 
 
 def register_blueprints(app):

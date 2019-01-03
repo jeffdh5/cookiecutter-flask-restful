@@ -5,7 +5,8 @@ Use env var to override
 DEBUG = True
 SECRET_KEY = "changeme"
 
-SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/{{cookiecutter.app_name}}.db"
+SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "postgresql://localhost/{{cookiecutter.app_name}}"
+SENTRY_DSN = os.environ.get("SENTRY_DSN") or "changeme"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 JWT_BLACKLIST_ENABLED = True

@@ -7,5 +7,13 @@ flask-jwt-extended
 marshmallow-sqlalchemy
 python-dotenv
 passlib
+gunicorn
+psycopg2-binary
+SQLAlchemy-Utils
+raven
+rq
+newrelic
+requests
+flask_cors
 tox{% if cookiecutter.use_celery == "yes" %}
 celery{% endif %}

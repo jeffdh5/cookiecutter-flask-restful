@@ -4,6 +4,10 @@ from {{cookiecutter.app_name}}.extensions import db, pwd_context
 class User(db.Model):
     """Basic user model
     """
+
+    # Change the tablename to use user_v2
+    __tablename__ = "user_v2"
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
