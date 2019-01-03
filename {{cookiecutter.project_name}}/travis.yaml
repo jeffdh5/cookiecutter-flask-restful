@@ -1,0 +1,33 @@
+language: python
+# https://docs.travis-ci.com/user/database-setup/#postgresql
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
+env:
+  global:
+  - PGPORT=5433
+python:
+  - "2.7.15"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - pip install -e .
+# command to run tests
+
+script: 
+  # https://github.com/travis-ci/travis-ci/issues/7940#issuecomment-311411559
+ - export BOTO_CONFIG=/dev/null
+ - psql -c 'create database {{cookiecutter.app_name}}_test;' -U postgres
+ - pytest
+
+before_install:
+# https://github.com/travis-ci/travis-ci/issues/9624#issuecomment-389537036
+- sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
+- sudo service postgresql restart
+- sleep 1
+
+services:
+- redis-server
